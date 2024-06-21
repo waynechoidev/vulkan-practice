@@ -1,35 +1,49 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-
+#include <stdexcept>
+#include <vector>
 #include <iostream>
 
-int main() {
-    glfwInit();
+#include "VulkanRenderer.h"
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
+GLFWwindow *window;
+VulkanRenderer vulkanRenderer;
 
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+void initWindow(std::string wName = "Test Window", const int width = 800, const int height = 600)
+{
+	// Initialise GLFW
+	glfwInit();
 
-    std::cout << extensionCount << " extensions supported\n";
+	// Set GLFW to NOT work with OpenGL
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    glm::mat4 matrix;
-    glm::vec4 vec;
-    auto test = matrix * vec;
+	window = glfwCreateWindow(width, height, wName.c_str(), nullptr, nullptr);
+}
 
-    while(!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
-    }
+int main()
+{
+	// Create Window
+	initWindow("Test Window", 800, 600);
 
-    glfwDestroyWindow(window);
+	// Create Vulkan Renderer instance
+	if (vulkanRenderer.init(window) == EXIT_FAILURE)
+	{
+		return EXIT_FAILURE;
+	}
 
-    glfwTerminate();
+	// Loop until closed
+	while (!glfwWindowShouldClose(window))
+	{
+		glfwPollEvents();
+	}
 
-    return 0;
+	vulkanRenderer.cleanup();
+
+	// Destroy GLFW window and stop GLFW
+	glfwDestroyWindow(window);
+	glfwTerminate();
+
+	return 0;
 }
