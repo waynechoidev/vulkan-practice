@@ -5,6 +5,8 @@
 
 #include <stdexcept>
 #include <vector>
+#include <set>
+#include <string.h>
 
 #include "VulkanValidation.h"
 #include "Utilities.h"
@@ -31,12 +33,15 @@ private:
 		VkDevice logicalDevice;
 	} mainDevice;
 	VkQueue graphicsQueue;
+	VkQueue presentationQueue;
+	VkSurfaceKHR surface;
 
 	// Vulkan Functions
 	// - Create Functions
 	void createInstance();
 	void createDebugCallback();
 	void createLogicalDevice();
+	void createSurface();
 
 	// - Get Functions
 	void getPhysicalDevice();
@@ -50,4 +55,5 @@ private:
 
 	// -- Getter Functions
 	QueueFamilyIndices getQueueFamilies(VkPhysicalDevice device);
+	SwapChainDetails getSwapChainDetails(VkPhysicalDevice device);
 };
