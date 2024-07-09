@@ -8,9 +8,10 @@
 #include <set>
 #include <algorithm>
 #include <array>
-#include <string.h>
+#include <cstring>
 #include <limits>
 
+#include "Mesh.h"
 #include "VulkanValidation.h"
 #include "Utilities.h"
 
@@ -29,6 +30,9 @@ private:
 	GLFWwindow *window;
 
 	int currentFrame = 0;
+
+	// Scene Objects
+	Mesh firstMesh;
 
 	// Vulkan Components
 	// - Main

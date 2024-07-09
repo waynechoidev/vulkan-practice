@@ -2,16 +2,25 @@
 
 #include <fstream>
 
+#include <glm/glm.hpp>
+
 const int MAX_FRAME_DRAWS = 3;
 
 const std::vector<const char *> deviceExtensions = {
-	VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+	VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+
+// Vertex data representation
+struct Vertex
+{
+	glm::vec3 pos; // Vertex Position (x, y, z)
+	glm::vec3 col; // Vertex Colour (r, g, b)
+};
 
 // Indices (locations) of Queue Families (if they exist at all)
-struct QueueFamilyIndices
-{
-	int graphicsFamily = -1;	 // Location of Graphics Queue Family
-	int presentationFamily = -1; // Location of Presentation Queue Family
+struct QueueFamilyIndices {
+	int graphicsFamily = -1;			// Location of Graphics Queue Family
+	int presentationFamily = -1;		// Location of Presentation Queue Family
 
 	// Check if queue families are valid
 	bool isValid()
@@ -20,15 +29,13 @@ struct QueueFamilyIndices
 	}
 };
 
-struct SwapChainDetails
-{
-	VkSurfaceCapabilitiesKHR surfaceCapabilities;	 // Surface properties, e.g. image size/extent
-	std::vector<VkSurfaceFormatKHR> formats;		 // Surface image formats, e.g. RGBA and size of each colour
-	std::vector<VkPresentModeKHR> presentationModes; // How images should be presented to screen
+struct SwapChainDetails {
+	VkSurfaceCapabilitiesKHR surfaceCapabilities;		// Surface properties, e.g. image size/extent
+	std::vector<VkSurfaceFormatKHR> formats;			// Surface image formats, e.g. RGBA and size of each colour
+	std::vector<VkPresentModeKHR> presentationModes;	// How images should be presented to screen
 };
 
-struct SwapchainImage
-{
+struct SwapchainImage {
 	VkImage image;
 	VkImageView imageView;
 };
