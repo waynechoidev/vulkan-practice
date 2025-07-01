@@ -18,8 +18,10 @@ endmacro ()
 
 # Function to compile GLSL to SPIR-V
 function(compile_shader input_file output_file)
+    get_filename_component(output_dir ${output_file} DIRECTORY)
     add_custom_command(
         OUTPUT ${output_file}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${output_dir}
         COMMAND glslangValidator -V ${input_file} -o ${output_file}
         DEPENDS ${input_file}
         COMMENT "Compiling ${input_file} to ${output_file}"
